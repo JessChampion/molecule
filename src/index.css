@@ -1,0 +1,23 @@
+@font-face {
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: 300;
+  src: local("Comfortaa Light"),local(Comfortaa-Light),url(//fonts.gstatic.com/s/comfortaa/v9/r_tUZNl0G8xCoOmp_JkSCnZ2MAKAc2x4R1uOSeegc5U.eot?#) format("eot"),url(//fonts.gstatic.com/s/comfortaa/v9/r_tUZNl0G8xCoOmp_JkSCugdm0LZdjqr5-oayXSOefg.woff2) format("woff2"),url(//fonts.gstatic.com/s/comfortaa/v9/r_tUZNl0G8xCoOmp_JkSCnhCUOGz7vYGh680lGh-uXM.woff) format("woff");
+}
+@font-face {
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: 400;
+  src: local("Comfortaa Regular"),local(Comfortaa-Regular),url(//fonts.gstatic.com/s/comfortaa/v9/qLBu5CQmSMt1H43OiWJ77fY6323mHUZFJMgTvxaG2iE.eot?#) format("eot"),url(//fonts.gstatic.com/s/comfortaa/v9/qLBu5CQmSMt1H43OiWJ77VtXRa8TVwTICgirnJhmVJw.woff2) format("woff2"),url(//fonts.gstatic.com/s/comfortaa/v9/qLBu5CQmSMt1H43OiWJ77T8E0i7KZn-EPnyo3HZu7kw.woff) format("woff");
+}
+@font-face {
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: 700;
+  src: local("Comfortaa Bold"),local(Comfortaa-Bold),url(//fonts.gstatic.com/s/comfortaa/v9/fND5XPYKrF2tQDwwfWZJI3Z2MAKAc2x4R1uOSeegc5U.eot?#) format("eot"),url(//fonts.gstatic.com/s/comfortaa/v9/fND5XPYKrF2tQDwwfWZJI-gdm0LZdjqr5-oayXSOefg.woff2) format("woff2"),url(//fonts.gstatic.com/s/comfortaa/v9/fND5XPYKrF2tQDwwfWZJI3hCUOGz7vYGh680lGh-uXM.woff) format("woff");
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Comfortaa, 'Helvetica Neue', sans-serif;
+}
