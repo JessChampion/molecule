@@ -27,9 +27,7 @@
     "jest"
   ],
   "rules": {
-    "default-case": [
-      "off"
-    ],
+    "default-case": 0,
     "indent": [
       "error",
       2,

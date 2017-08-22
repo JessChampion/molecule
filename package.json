@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "dependencies": {
     "eslint": "^4.5.0",
+    "pixi.js": "^4.5.4",
+    "prop-types": "^15.5.10",
     "ramda": "^0.24.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-pixi": "^0.9.14",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "stylelint": "^8.0.0"

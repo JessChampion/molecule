@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import { loadData } from '../model/actions';
+import {loadData} from '../model/actions';
+import World from '../view/World';
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onLoad: (data) => {
       dispatch(loadData(data));
-      console.log('onLoad');
-      console.log(data);
     }
   };
 };
@@ -23,14 +22,17 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <h1>app</h1>
+        <World/>
       </div>
     );
   }
 }
 
 App.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.shape({
+    people: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
+  onLoad: PropTypes.func,
 };
 
 export default connect(null, mapDispatchToProps)(App);
