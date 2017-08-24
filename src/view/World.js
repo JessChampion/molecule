@@ -2,9 +2,8 @@ import PropTypes from 'prop-types';
 import * as R from 'ramda';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Stage} from 'react-pixi';
 
-import Atom from './components/Atom';
+import WorldView from './components/WorldView';
 import * as animations from './animations';
 import {config} from './config';
 import {randomInt} from './utils';
@@ -30,9 +29,6 @@ const applyAnimationToAtom = R.evolve({
 });
 const applyAnimations = R.map(applyAnimationToAtom);
 const updateAnimationState = R.converge(R.assoc('atoms'), [R.compose(applyAnimations, R.prop('atoms')), R.identity]);
-
-const omitId = R.omit(['id']);
-const renderAtom = (atom) => (<Atom key={atom.id}  {...omitId(atom)} />);
 
 class World extends Component {
 
@@ -60,12 +56,9 @@ class World extends Component {
 
   render() {
     const atoms = this.state && this.state.atoms ? this.state.atoms : [];
-    const content = atoms.map(renderAtom);
     const {color, height, width} = config.stage;
     return (
-      <Stage backgroundColor={color} height={height} width={width} interactive={true}>
-        {content}
-      </Stage>
+      <WorldView color={color} height={height} width={width} atoms={atoms} interactive={true} />
     );
   }
 }
