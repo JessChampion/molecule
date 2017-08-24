@@ -3,20 +3,21 @@ import * as R from 'ramda';
 import {CREATE_VM, LOAD_DATA} from './actions';
 
 const getPeople = R.pathOr({}, ['data', 'people']);
-const getAtoms = R.pathOr({}, ['data', 'atoms']);
+const getViewModel = R.pathOr({}, ['data', 'viewModel']);
 
 const modelReducer = (state = {people: []}, action) => {
   // eslint-disable-next-line
   switch (action.type) {
     case CREATE_VM: {
+      const vm = getViewModel(action);
       return {
-        atoms: getAtoms(action),
+        viewModel: vm,
         people: state.people
       };
     }
     case LOAD_DATA: {
       return {
-        atoms: state.atoms,
+        viewModel: state.viewModel,
         people: getPeople(action)
       };
     }

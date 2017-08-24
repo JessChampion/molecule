@@ -2,40 +2,68 @@ import PropTypes from 'prop-types';
 import * as R from 'ramda';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-// import pixi from 'pixi.js';
-import {Stage, Sprite, VectorText} from 'react-pixi';
+import {Stage} from 'react-pixi';
 
 import Atom from './components/Atom';
+import * as animations from './animations';
+import {config} from './config';
+import {randomInt} from './utils';
 
-const SPEED = 0.005;
-
-const getStateProps = R.compose(R.objOf('atoms'), R.pathOr([], ['model', 'atoms']));
+const getStateProps = R.compose(R.objOf('viewModel'), R.pathOr([], ['model', 'viewModel']));
 const mapStateToProps = (state) => getStateProps(state);
 
+const initialiseSpriteValues = R.applySpec({
+  x: randomInt(config.stage.padding, config.stage.width - config.stage.padding),
+  y: randomInt(config.stage.padding, config.stage.height - config.stage.padding),
+  rotation: randomInt(0, 1)
+});
+const emptyObjectWithKey = R.flip(R.objOf, null);
+const emptyObjectFromKeys = R.compose(R.mergeAll, R.map(emptyObjectWithKey));
+const getSpriteValues = R.compose(initialiseSpriteValues, emptyObjectFromKeys, R.prop('animations'));
+const getValuesFromModel = R.pickAll(['id', 'sprite']);
+const getAtom = R.converge(R.merge, [getValuesFromModel, getSpriteValues]);
+const processModel = R.map(getAtom);
+const getAtomsFromViewModel = R.compose(processModel, R.pathOr([], ['viewModel']));
+
+const applyAnimationToAtom = R.evolve({
+  rotation: animations.rotation
+});
+const applyAnimations = R.map(applyAnimationToAtom);
+const updateAnimationState = R.converge(R.assoc('atoms'), [R.compose(applyAnimations, R.prop('atoms')), R.identity]);
+
+const omitId = R.omit(['id']);
+const renderAtom = (atom) => (<Atom key={atom.id}  {...omitId(atom)} />);
+
 class World extends Component {
-  constructor() {
-    super();
-    this.state = {rotation: 0};
+
+  updateStateFromViewModel(props) {
+    this.setState({atoms: getAtomsFromViewModel(props)});
+  }
+
+  componentWillMount() {
+    this.updateStateFromViewModel(this.props);
   }
 
   componentDidMount() {
-    const tick = () => {//This is where we will bind the animation
-      // this.setState({rotation: this.state.rotation + Math.PI*SPEED});
-      //Somehow call each atoms tick event
+    const tick = () => {
+      this.setState(updateAnimationState(this.state));
       requestAnimationFrame(tick);
     };
     tick();
   }
 
-  renderAtom(id, sprite, pos) {
-    return (<Atom key={id} sprite={sprite} x={pos} y={pos}/>);
+  componentWillReceiveProps(nextProps) {
+    //when state changes
+    console.log(nextProps);
+    this.updateStateFromViewModel(nextProps);
   }
 
   render() {
-    const atoms = this.props.atoms ? this.props.atoms : [];
-    const content = atoms.map((person, index) => this.renderAtom(person.id, person.sprite, 100 * (index + 1)));
+    const atoms = this.state && this.state.atoms ? this.state.atoms : [];
+    const content = atoms.map(renderAtom);
+    const {color, height, width} = config.stage;
     return (
-      <Stage backgroundColor={0xa08080} height={500} width={800} interactive={true}>
+      <Stage backgroundColor={color} height={height} width={width} interactive={true}>
         {content}
       </Stage>
     );
@@ -43,7 +71,7 @@ class World extends Component {
 }
 
 World.propTypes = {
-  atoms: PropTypes.arrayOf(PropTypes.object).isRequired,
+  viewModel: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default connect(mapStateToProps)(World);
