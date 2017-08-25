@@ -21,13 +21,14 @@ export default class WorldView extends Component {
 }
 
 WorldView.propTypes = {
-  atoms: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    sprite: PropTypes.string.isRequired,
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-    rotation: PropTypes.number
-  })),
+  atoms: PropTypes.array,
+  // atoms: PropTypes.arrayOf(PropTypes.shape({
+  //   id: PropTypes.number.isRequired,
+  //   sprite: PropTypes.string.isRequired,
+  //   x: PropTypes.number.isRequired,
+  //   y: PropTypes.number.isRequired,
+  //   rotation: PropTypes.number
+  // })),
   color: PropTypes.number,
   height: PropTypes.number,
   width: PropTypes.number

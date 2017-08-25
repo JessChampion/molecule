@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import WorldView from './components/WorldView';
-import * as animations from './animations';
+import Engine from './engine/Engine';
 import {config} from './config';
 import {randomInt} from './utils';
 
@@ -22,19 +22,25 @@ const getSpriteValues = R.compose(initialiseSpriteValues, emptyObjectFromKeys, R
 const getValuesFromModel = R.pickAll(['id', 'sprite']);
 const getAtom = R.converge(R.merge, [getValuesFromModel, getSpriteValues]);
 const processModel = R.map(getAtom);
+
 const getAtomsFromViewModel = R.compose(processModel, R.pathOr([], ['viewModel']));
 
-const applyAnimationToAtom = R.evolve({
-  rotation: animations.rotation
-});
-const applyAnimations = R.map(applyAnimationToAtom);
-const updateAnimationState = R.converge(R.assoc('atoms'), [R.compose(applyAnimations, R.prop('atoms')), R.identity]);
-
 class World extends Component {
+
+  constructor() {
+    super();
+    this.engine = new Engine();
+  }
 
   updateStateFromViewModel(props) {
     this.setState({atoms: getAtomsFromViewModel(props)});
   }
+
+  componentWillUpdate(nextProps, nextState){
+
+    this.engine.setAtoms(nextState.atoms);
+  }
+
 
   componentWillMount() {
     this.updateStateFromViewModel(this.props);
@@ -42,7 +48,7 @@ class World extends Component {
 
   componentDidMount() {
     const tick = () => {
-      this.setState(updateAnimationState(this.state));
+      this.setState({atoms: this.engine.tick()});
       requestAnimationFrame(tick);
     };
     tick();
@@ -58,7 +64,7 @@ class World extends Component {
     const atoms = this.state && this.state.atoms ? this.state.atoms : [];
     const {color, height, width} = config.stage;
     return (
-      <WorldView color={color} height={height} width={width} atoms={atoms} interactive={true} />
+      <WorldView color={color} height={height} width={width} atoms={atoms} interactive={true}/>
     );
   }
 }
