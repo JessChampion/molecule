@@ -20,6 +20,7 @@ export default class Engine{
   }
 
   tick(){
+    //world.step( time );
     //do animation and return atoms
     return applyAnimations(this.atoms);
   }
