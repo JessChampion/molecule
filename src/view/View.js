@@ -3,8 +3,8 @@ import * as R from 'ramda';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import WorldView from './components/WorldView';
-import Engine from './engine/Engine';
+import World from './components/World';
+import Engine from './Engine';
 import {config} from './config';
 import {randomInt} from './utils';
 
@@ -25,7 +25,7 @@ const processModel = R.map(getAtom);
 
 const getAtomsFromViewModel = R.compose(processModel, R.pathOr([], ['viewModel']));
 
-class World extends Component {
+class View extends Component {
 
   constructor() {
     super();
@@ -64,13 +64,13 @@ class World extends Component {
     const atoms = this.state && this.state.atoms ? this.state.atoms : [];
     const {color, height, width} = config.stage;
     return (
-      <WorldView color={color} height={height} width={width} atoms={atoms} interactive={true}/>
+      <World color={color} height={height} width={width} atoms={atoms} interactive={true}/>
     );
   }
 }
 
-World.propTypes = {
+View.propTypes = {
   viewModel: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default connect(mapStateToProps)(World);
+export default connect(mapStateToProps)(View);

@@ -8,7 +8,7 @@ import Atom from './Atom';
 const omitId = R.omit(['id']);
 const renderAtom = (atom) => (<Atom key={atom.id}  {...omitId(atom)} />);
 
-export default class WorldView extends Component {
+export default class World extends Component {
   render() {
     const {atoms, color, height, width} = this.props;
     const content = atoms.map(renderAtom);
@@ -20,7 +20,7 @@ export default class WorldView extends Component {
   }
 }
 
-WorldView.propTypes = {
+World.propTypes = {
   atoms: PropTypes.array,
   // atoms: PropTypes.arrayOf(PropTypes.shape({
   //   id: PropTypes.number.isRequired,

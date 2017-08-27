@@ -3,7 +3,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 
 import {loadData} from '../model/actions';
-import World from '../view/World';
+import View from '../view/View';
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -22,7 +22,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <World/>
+        <View/>
       </div>
     );
   }
