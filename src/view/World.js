@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import WorldView from './components/WorldView';
-import Engine from './engine/Engine';
+import MoleculeEngine from './engine/MoleculeEngine';
 import {config} from './config';
 import {randomInt} from './utils';
 
@@ -29,7 +29,7 @@ class World extends Component {
 
   constructor() {
     super();
-    this.engine = new Engine();
+    this.engine = new MoleculeEngine();
   }
 
   updateStateFromViewModel(props) {
